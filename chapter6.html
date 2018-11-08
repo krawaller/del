@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Even more Firebase</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="icon" type="image/x-icon" href="mc2/images/favicon.ico">
+
+    <link rel="stylesheet" href="mc2/styles/reveal.css">
+    <link rel="stylesheet" href="mc2/styles/theme.css" id="theme">
+    <link rel="stylesheet" href="mc2/styles/code.css">
+    <!--STARTCOURSESPECIFICSTYLES--><link rel="stylesheet" href="styles/stuff.css"><!--ENDCOURSESPECIFICSTYLES-->
+
+    
+  </head>
+
+  <body>
+    <div id="pos"></div>
+    <div class="reveal">
+      <div class="slides">
+        <section class="slide chaptertitle">
+          <div class="slidecontent">
+            <div class="chapternumber"> chapter 6 of 8 </div>
+            <h1>Even more Firebase</h1>
+            <span>Hearts on fire</span>
+          </div>
+        </section>
+        
+        <!--STARTSECTIONINDEX--><section class="slide sectionlist">
+  <div class="slidecontent">
+    <h3>Sections in this chapter</h3>
+    <ol>
+    <li><a href="#/2">Auth</a></li>
+<li><a href="#/3">Exercise&nbsp;&#8209;&nbsp;Login</a></li>
+<li><a href="#/4">Security</a></li>
+<li><a href="#/5">Exercise&nbsp;&#8209;&nbsp;server&nbsp;security</a></li>
+    </ol>
+  </div>
+</section>
+<!--ENDSECTIONINDEX-->
+        <!--STARTCHAPTERCONTENT--><!--STARTSECTION1--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 1/4</div>
+      <h3>Auth</h3>
+      <p>Who goes there</p>
+    </div>
+  </section>
+  <section class="slide" data-pos="6-1-1">
+<span class="pos">6-1-1</span>
+<div class="slidecontent"><p>The Firebase platform has its own <strong>authentication</strong> product.</p>
+<p>In other words, a direct competitor of for example <a href="https://auth0.com/">Auth0</a>.</p>
+</div></section><section class="slide" data-pos="6-1-2">
+<span class="pos">6-1-2</span>
+<div class="slidecontent"><p>Like many such services, Firebase authentication can both <strong>handle accounts</strong> and/or <strong>integrate with other account givers</strong>:</p>
+<p><img src="resources/6-1-2-127.svg" alt="dot"></p>
+</div></section><section class="slide" data-pos="6-1-3">
+<span class="pos">6-1-3</span>
+<div class="slidecontent"><p>Since Firebase authentication is both <strong>simple and convenient</strong>, there are many apps who use it <strong>without using a Firebase database</strong> or any other Firebase product.</p>
+</div></section><section class="slide" data-pos="6-1-4">
+<span class="pos">6-1-4</span>
+<div class="slidecontent"><p>But most commonly we use it to <strong>protect some part of our Firebase databse data</strong>.</p>
+</div></section><section class="slide" data-pos="6-1-5">
+<span class="pos">6-1-5</span>
+<div class="slidecontent"><p>Authentication is set up per project in the <strong>Firebase console</strong>:</p>
+<p><img src="resources/images/consolemenu-auth.png" alt=""></p>
+</div></section><section class="slide" data-pos="6-1-6">
+<span class="pos">6-1-6</span>
+<div class="slidecontent"><p>There is a whole range of <strong>different providers</strong>:</p>
+<p><img src="resources/images/providers.png" alt=""></p>
+</div></section><section class="slide" data-pos="6-1-7">
+<span class="pos">6-1-7</span>
+<div class="slidecontent"><p>Once configured and users have logged in, we can also <strong>manage users and see usage</strong> of our app here in the online console.</p>
+</div></section><section class="slide" data-pos="6-1-8">
+<span class="pos">6-1-8</span>
+<div class="slidecontent"><p>We can also control what <strong>domains</strong> we can log in from:</p>
+<p><img src="resources/images/authdomains.png" alt=""></p>
+<p>We want to <strong>remove localhost</strong> for production!</p>
+</div></section><section class="slide" data-pos="6-1-9">
+<span class="pos">6-1-9</span>
+<div class="slidecontent"><p>On our local machines we can also <strong>export all user data</strong>:</p>
+<pre><code>firebase auth:<span class="hljs-builtin-name">export</span> out.json <span class="hljs-attribute">--format</span>=json
+</code></pre></div></section><section class="slide" data-pos="6-1-10">
+<span class="pos">6-1-10</span>
+<div class="slidecontent"><p>In our client code we can <strong>listen to auth changes</strong>...</p>
+<pre><code class="lang-javascript">firebase.auth().onAuthStateChanged(authHandler);
+</code></pre>
+<p>...which will be called with <code>null</code> or a <code>user</code> everytime auth state changes.</p>
+</div></section><section class="slide" data-pos="6-1-11">
+<span class="pos">6-1-11</span>
+<div class="slidecontent"><p>The exact shape of the user varies with provider; here is a <strong>Github user</strong>:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"localId"</span>: <span class="hljs-string">"pYMyFF133UV9cN0HHl4xa6KAt042"</span>,
+  <span class="hljs-attr">"email"</span>: <span class="hljs-string">"david@krawaller.se"</span>,
+  <span class="hljs-attr">"emailVerified"</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"David Waller"</span>,
+  <span class="hljs-attr">"photoUrl"</span>: <span class="hljs-string">"https://avatars2.githubusercontent.com/u/249764?v=4"</span>,
+  <span class="hljs-attr">"lastSignedInAt"</span>: <span class="hljs-string">"1541439524000"</span>,
+  <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"1541431458000"</span>,
+  <span class="hljs-attr">"providerUserInfo"</span>: [
+    {
+      <span class="hljs-attr">"providerId"</span>: <span class="hljs-string">"github.com"</span>,
+      <span class="hljs-attr">"rawId"</span>: <span class="hljs-string">"249764"</span>,
+      <span class="hljs-attr">"email"</span>: <span class="hljs-string">"david@krawaller.se"</span>,
+      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"David Waller"</span>,
+      <span class="hljs-attr">"photoUrl"</span>: <span class="hljs-string">"https://avatars2.githubusercontent.com/u/249764?v=4"</span>
+    }
+  ]
+}
+</code></pre>
+</div></section>
+</section>
+<!--ENDSECTION1-->
+<!--STARTSECTION2--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 2/4</div>
+      <h3>Exercise - Login</h3>
+      
+    </div>
+  </section>
+  <section class="slide" data-pos="6-2-1">
+<span class="pos">6-2-1</span>
+<div class="slidecontent"><p>Time to try it - let&#39;s make it so <strong>only logged-in people can comment</strong> on our blog!</p>
+</div></section><section class="slide" data-pos="6-2-2">
+<span class="pos">6-2-2</span>
+<div class="slidecontent"><p>We&#39;ll actually <strong>only add client-side protection</strong> for now.</p>
+<p>Server-side protection means dealing with the <strong>Security</strong> rules, which will come later!</p>
+</div></section><section class="slide list" data-pos="6-2-3">
+<span class="pos">6-2-3</span>
+<div class="slidecontent">
+<ul>
+<li><span>a</span>Register a Github app</li>
+<li><span>b</span>Set up Github Authentication</li>
+<li><span>c</span>Setup local login</li>
+<li><span>d</span>Ditch anonymous</li>
+<li><span>e</span>Hook up to commenting</li>
+</ul>
+</div></section><section class="slide num numA" data-pos="6-2-4">
+<span class="pos">6-2-4</span>
+<div class="slidecontent">
+<p>Go to <a href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a> to <strong>register a Github OAuth app</strong>!</p>
+</div></section><section class="slide" data-pos="6-2-5">
+<span class="pos">6-2-5</span>
+<div class="slidecontent"><p>Here&#39;s what you should fill in:</p>
+<p><img src="resources/images/registergithub.png" alt=""></p>
+</div></section><section class="slide" data-pos="6-2-6">
+<span class="pos">6-2-6</span>
+<div class="slidecontent"><p>Note the field <strong><code>Authorization callback URL</code></strong> at the bottom - there you should put...</p>
+<pre><code>http<span class="hljs-variable">s:</span>//<span class="hljs-symbol">&lt;YOUR-APP-ID&gt;</span>.firebaseapp.<span class="hljs-keyword">com</span>/__/auth/handler
+</code></pre></div></section><section class="slide" data-pos="6-2-7">
+<span class="pos">6-2-7</span>
+<div class="slidecontent"><p>Click create, and make note of the <strong>Client ID</strong> and <strong>Client Secret</strong>:</p>
+<p><img src="resources/images/githubappinfo.png" alt=""></p>
+</div></section><section class="slide num numB" data-pos="6-2-8">
+<span class="pos">6-2-8</span>
+<div class="slidecontent">
+<p>Now time to <strong>connect the Github app to Firebase</strong>!</p>
+<ul>
+<li>Go to <strong>Authentication</strong> in the online console</li>
+<li>Click the <strong>sign-in method</strong> tab</li>
+<li>Click <strong>enable</strong> for Github</li>
+</ul>
+</div></section><section class="slide" data-pos="6-2-9">
+<span class="pos">6-2-9</span>
+<div class="slidecontent"><p>In the appearing window, <strong>fill in the Github Client info</strong>:</p>
+<p><img src="resources/images/githubfbsetup.png" alt=""></p>
+<p>Hit <strong><code>Save</code></strong>, and you&#39;re done!</p>
+</div></section><section class="slide num numC" data-pos="6-2-10">
+<span class="pos">6-2-10</span>
+<div class="slidecontent">
+<p>To be able to <strong>use the <code>auth</code> namespace</strong> we have to <strong>add a reference</strong> in our master template:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://www.gstatic.com/firebasejs/5.5.7/firebase-auth.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+</div></section><section class="slide" data-pos="6-2-11">
+<span class="pos">6-2-11</span>
+<div class="slidecontent"><p>Also in the master template, we want to add <strong>UI for logging in</strong>...</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"loggedOut"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"logInBtn"</span>&gt;</span>Log in<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+</code></pre>
+<p>...and one for <strong>logging out</strong>:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"loggedIn"</span>&gt;</span>
+  Logged in as <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"userName"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"logOutBtn"</span>&gt;</span>Log out<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+</code></pre>
+<p>Something like this, somewhere on the page!</p>
+</div></section><section class="slide" data-pos="6-2-12">
+<span class="pos">6-2-12</span>
+<div class="slidecontent"><p>Add a <strong><code>login.js</code> file</strong> to house the logic...</p>
+<pre><code class="lang-text">/scripts
+  login.js
+</code></pre>
+<p>...and include it too in the master template.</p>
+</div></section><section class="slide" data-pos="6-2-13">
+<span class="pos">6-2-13</span>
+<div class="slidecontent"><p>In there we want to <strong>set an auth handler</strong>...</p>
+<pre><code class="lang-javascript">firebase.auth().onAuthStateChanged(authHandler);
+</code></pre>
+<p>...and <strong>open login popup</strong> for login button clicks...</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> githubProvider = <span class="hljs-keyword">new</span> firebase.auth.GithubAuthProvider();
+firebase.auth().signInWithPopup(githubProvider);
+</code></pre>
+<p>...and <strong>log out</strong> for logout buton clicks:</p>
+<pre><code class="lang-javascript">firebase.auth().signOut();
+</code></pre>
+</div></section><section class="slide" data-pos="6-2-14">
+<span class="pos">6-2-14</span>
+<div class="slidecontent"><p>The <strong><code>authHandler</code></strong> is called with a <code>user</code> or <code>null</code>;</p>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authHandler</span>(<span class="hljs-params">user</span>) </span>{
+  <span class="hljs-comment">// show or hide the login/logout UI</span>
+
+  <span class="hljs-built_in">window</span>.user = user; <span class="hljs-comment">// for convenience</span>
+}
+</code></pre>
+<p>Note how we also **store the user onto <code>window</code>, in case other code will need it.</p>
+</div></section><section class="slide num numD" data-pos="6-2-15">
+<span class="pos">6-2-15</span>
+<div class="slidecontent">
+<p>We <strong>shouldn&#39;t be anonymous</strong> anymore! Tweak the code in <code>comments.js</code> to use...</p>
+<pre><code class="lang-javascript"><span class="hljs-built_in">window</span>.user.email;
+</code></pre>
+<p>...instead of <code>&quot;Anonymous&quot;</code>.</p>
+</div></section><section class="slide num numE" data-pos="6-2-16">
+<span class="pos">6-2-16</span>
+<div class="slidecontent">
+<p>Finally we should also set a <strong>auth listener in <code>comments.js</code></strong> that enables/disables the comment field!</p>
+</div></section><section class="slide" data-pos="6-2-17">
+<span class="pos">6-2-17</span>
+<div class="slidecontent"><p>Again, this is of course <strong>only client side protection</strong>.</p>
+<p>Proper measures need to be taken for <strong>server-side security</strong> too.</p>
+</div></section>
+</section>
+<!--ENDSECTION2-->
+<!--STARTSECTION3--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 3/4</div>
+      <h3>Security</h3>
+      <p>Breaking the law</p>
+    </div>
+  </section>
+  <section class="slide" data-pos="6-3-1">
+<span class="pos">6-3-1</span>
+<div class="slidecontent"><p>Remember when we selected <strong>test mode</strong>?</p>
+<p><img src="resources/images/testmode.png" alt=""></p>
+</div></section><section class="slide" data-pos="6-3-2">
+<span class="pos">6-3-2</span>
+<div class="slidecontent"><p>It selected this <strong>rule set</strong> for our data:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"rules"</span>: {
+    <span class="hljs-attr">".read"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">".write"</span>: <span class="hljs-literal">true</span>
+  }
+}
+</code></pre>
+<p>Click the <strong>rules</strong> tab in the <strong>Database</strong> part of the online console, and you&#39;ll see exactly this JSON.</p>
+</div></section><section class="slide" data-pos="6-3-3">
+<span class="pos">6-3-3</span>
+<div class="slidecontent"><p>We can (and should) make these rules <strong>part of our source code</strong>.</p>
+<p>If we create a file <code>database.rules.json</code> containing the rules, we can <strong>register it in <code>firebase.json</code></strong>...</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"database"</span>: {
+    <span class="hljs-attr">"rules"</span>: <span class="hljs-string">"database.rules.json"</span>
+  }
+  // other config like hosting etc
+}
+</code></pre>
+</div></section><section class="slide" data-pos="6-3-4">
+<span class="pos">6-3-4</span>
+<div class="slidecontent"><p>...and then <strong>deploy</strong> that file to the online console:</p>
+<pre><code class="lang-text">firebase deploy --only database
+</code></pre>
+<p>(you&#39;ll need to <strong>reload</strong> the console to see it)</p>
+</div></section><section class="slide" data-pos="6-3-5">
+<span class="pos">6-3-5</span>
+<div class="slidecontent"><p>When we deploy we&#39;ll be <strong>notified of syntax errors</strong>:</p>
+<p><img src="resources/images/ruleserror.png" alt=""></p>
+</div></section><section class="slide" data-pos="6-3-6">
+<span class="pos">6-3-6</span>
+<div class="slidecontent"><p>The rules structure <strong>matches the data</strong>. By saying...</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">".write"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">".read"</span>: <span class="hljs-literal">true</span>
+}
+</code></pre>
+<p>...we say reads and writes are allowed from the <strong>top of the pyramid and down</strong>. In other words, everywhere.</p>
+</div></section><section class="slide" data-pos="6-3-7">
+<span class="pos">6-3-7</span>
+<div class="slidecontent"><p>But we can set <strong>specific rules for specific parts</strong>:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">".read"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">"comments"</span>: {
+    <span class="hljs-attr">".write"</span>: <span class="hljs-literal">true</span>
+  }
+}
+</code></pre>
+<p>Now <strong>only <code>/comments</code> is writeable</strong>.</p>
+</div></section><section class="slide" data-pos="6-3-8">
+<span class="pos">6-3-8</span>
+<div class="slidecontent"><p>We&#39;re not limited to <code>true</code> and <code>false</code> - we can also write <strong>expressions</strong> in a string, like this...</p>
+<pre><code class="lang-json"><span class="hljs-string">"newData.child('content').isString"</span>
+</code></pre>
+<p>...or this...</p>
+<pre><code class="lang-json"><span class="hljs-string">"auth != null"</span>
+</code></pre>
+</div></section><section class="slide" data-pos="6-3-9">
+<span class="pos">6-3-9</span>
+<div class="slidecontent"><p>Or, if we include <strong>wild cards in our rules tree</strong>...</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"users"</span>: {
+    <span class="hljs-attr">"$uid"</span>: {
+      <span class="hljs-attr">".write"</span>: <span class="hljs-string">"auth.uid === $uid"</span>
+    }
+  }
+}
+</code></pre>
+</div></section><section class="slide" data-pos="6-3-10">
+<span class="pos">6-3-10</span>
+<div class="slidecontent"><p>In other words, the <strong>rule expressions</strong> can contain</p>
+<ul>
+<li>variables referring to the tree path</li>
+<li>special built-in variables and methods</li>
+</ul>
+<p>Learn more here: <a href="https://firebase.google.com/docs/database/security/">https://firebase.google.com/docs/database/security/</a></p>
+</div></section>
+</section>
+<!--ENDSECTION3-->
+<!--STARTSECTION4--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 4/4</div>
+      <h3>Exercise - server security</h3>
+      <p>&#39;Cause we don&#39;t trust the client</p>
+    </div>
+  </section>
+  <section class="slide" data-pos="6-4-1">
+<span class="pos">6-4-1</span>
+<div class="slidecontent"><p>You guessed it - time to <strong>secure our data</strong>!</p>
+</div></section><section class="slide" data-pos="6-4-2">
+<span class="pos">6-4-2</span>
+<div class="slidecontent"><p>Your mission - allow writes to <code>/comments/someRandomGUID</code> only if...</p>
+<ul>
+<li>there isn&#39;t already a comment there</li>
+<li>the <code>name</code> child matches <code>auth.token.email</code></li>
+</ul>
+</div></section><section class="slide" data-pos="6-4-3">
+<span class="pos">6-4-3</span>
+<div class="slidecontent"><p>Test it by tweaking <code>comments.js</code> to...</p>
+<ul>
+<li>allowing non-logged-in users to comment</li>
+<li>putting some nonsense for <code>name</code> instead of using <code>user.email</code></li>
+</ul>
+<p>For either of these, it should <strong>no longer work</strong>!</p>
+</div></section><section class="slide" data-pos="6-4-4">
+<span class="pos">6-4-4</span>
+<div class="slidecontent"><p>To see the needed <strong>rules syntax</strong> for these to things, check:</p>
+<ul>
+<li><a href="https://firebase.google.com/docs/database/security/securing-data">https://firebase.google.com/docs/database/security/securing-data</a></li>
+<li><a href="https://firebase.google.com/docs/database/security/user-security">https://firebase.google.com/docs/database/security/user-security</a></li>
+</ul>
+</div></section>
+</section>
+<!--ENDSECTION4--><!--ENDCHAPTERCONTENT-->
+        
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var basehref = window.location.href.replace(/chapter\d.*?$/,'')
+
+      document.addEventListener("keydown",function(e){
+        var code = e.which || e.keyCode;
+        if (code===13){
+          window.location.href = basehref+"index.html?from="+(6-1);
+        } else if (code >= 49 && code <= 4+48) {
+          window.location.hash = "#/" + (code-48+1+0);
+        }
+        if (6 < 8) {
+          if (code===99){ // the letter C for next Chapter
+            window.location.href = basehref+"chapter"+(6+1)+".html"
+          }
+        }
+      });
+    </script>
+    <script src="mc2/scripts/head.js" type="text/javascript"></script>
+    <script src="mc2/scripts/reveal.js" type="text/javascript"></script>
+    <script src="mc2/scripts/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+    showNotes: false,
+    transition: 'slide',
+    dependencies: [
+      { src: 'mc2/scripts/plugin/notes/notes.js', async: true }
+    ]
+  })
+
+    window.onload = function(){
+
+      var links = document.querySelectorAll("a.link");
+      for(var i=0;i<links.length;i++){
+        var link = links[i];
+        link.innerHTML = link.innerHTML.replace(/ /g,'&nbsp;')
+      }
+      var posElem = document.getElementById('pos')
+      function updateReference(){
+        setTimeout(function(){
+          var currentpos = document.querySelector('section.present[data-pos]')
+          if (currentpos){
+            posElem.innerHTML = currentpos.getAttribute('data-pos')
+          } else {
+            posElem.innerHTML = ''
+          }
+          if (document.querySelector('.present.chaptertitle')){
+            document.body.classList.add('atchaptertitle');
+          } else {
+            document.body.classList.remove('atchaptertitle');
+          }
+        },10)
+      }
+
+      window.addEventListener("hashchange",updateReference);
+
+      updateReference();
+    };
+
+    </script>
+    <!--STARTCOURSESPECIFICSCRIPTS--><!--ENDCOURSESPECIFICSCRIPTS-->
+  </body>
+</html>

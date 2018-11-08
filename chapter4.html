@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Firebase</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="icon" type="image/x-icon" href="mc2/images/favicon.ico">
+
+    <link rel="stylesheet" href="mc2/styles/reveal.css">
+    <link rel="stylesheet" href="mc2/styles/theme.css" id="theme">
+    <link rel="stylesheet" href="mc2/styles/code.css">
+    <!--STARTCOURSESPECIFICSTYLES--><link rel="stylesheet" href="styles/stuff.css"><!--ENDCOURSESPECIFICSTYLES-->
+
+    
+  </head>
+
+  <body>
+    <div id="pos"></div>
+    <div class="reveal">
+      <div class="slides">
+        <section class="slide chaptertitle">
+          <div class="slidecontent">
+            <div class="chapternumber"> chapter 4 of 8 </div>
+            <h1>Firebase</h1>
+            <span>Fight fire with fire</span>
+          </div>
+        </section>
+        
+        <!--STARTSECTIONINDEX--><section class="slide sectionlist">
+  <div class="slidecontent">
+    <h3>Sections in this chapter</h3>
+    <ol>
+    <li><a href="#/2">Firebase</a></li>
+<li><a href="#/3">Workflow</a></li>
+<li><a href="#/4">Hosting</a></li>
+<li><a href="#/5">Exercise&nbsp;&#8209;&nbsp;hosting,&nbsp;take&nbsp;I</a></li>
+<li><a href="#/6">Functions</a></li>
+<li><a href="#/7">Demo&nbsp;&#8209;&nbsp;hosting,&nbsp;take&nbsp;II</a></li>
+    </ol>
+  </div>
+</section>
+<!--ENDSECTIONINDEX-->
+        <!--STARTCHAPTERCONTENT--><!--STARTSECTION1--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 1/6</div>
+      <h3>Firebase</h3>
+      <p>The platform</p>
+    </div>
+  </section>
+  <section class="slide question" data-pos="4-1-1">
+<span class="pos">4-1-1</span>
+<div class="slidecontent">
+<p>What is Firebase?</p>
+<p><img src="resources/images/firebaselogo.png" alt=""></p>
+</div></section><section class="slide" data-pos="4-1-2">
+<span class="pos">4-1-2</span>
+<div class="slidecontent"><p><img src="resources/images/firebasedef.png" alt=""></p>
+</div></section><section class="slide answer" data-pos="4-1-3">
+<span class="pos">4-1-3</span>
+<div class="slidecontent">
+<p>Firebase is a <strong>platform</strong>:</p>
+<p><img src="resources/4-1-3-38.svg" alt="dot"></p>
+</div></section><section class="slide" data-pos="4-1-4">
+<span class="pos">4-1-4</span>
+<div class="slidecontent"><p>It is even a <strong>platform that supports platforms</strong>:</p>
+<p><img src="resources/4-1-4-52.svg" alt="dot"></p>
+</div></section><section class="slide" data-pos="4-1-5">
+<span class="pos">4-1-5</span>
+<div class="slidecontent"><p>They even have their own <strong>conference</strong>!</p>
+<p><img src="resources/images/firebasesummit.png" alt=""></p>
+</div></section><section class="slide" data-pos="4-1-6">
+<span class="pos">4-1-6</span>
+<div class="slidecontent"><p>The official homepage is...</p>
+<p><a href="https://firebase.google.com/">https://firebase.google.com/</a></p>
+<p>...because they were bought by Google in 2014.</p>
+</div></section>
+</section>
+<!--ENDSECTION1-->
+<!--STARTSECTION2--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 2/6</div>
+      <h3>Workflow</h3>
+      <p>The moving parts</p>
+    </div>
+  </section>
+  <section class="slide list" data-pos="4-2-1">
+<span class="pos">4-2-1</span>
+<div class="slidecontent">
+<p>There are a bunch of moving parts when working with Firebase:</p>
+<ul>
+<li><span>a</span>The online console</li>
+<li><span>b</span>The CLI</li>
+<li><span>c</span><code>firebase.json</code></li>
+<li><span>d</span><code>.firebaserc</code></li>
+<li><span>e</span><code>firebase-debug.log</code></li>
+<li><span>f</span><code>.firebase</code></li>
+</ul>
+</div></section><section class="slide num numA" data-pos="4-2-2">
+<span class="pos">4-2-2</span>
+<div class="slidecontent">
+<p>First off you will create <strong>Firebase projects</strong> at <a href="https://console.firebase.google.com">https://console.firebase.google.com</a>.</p>
+<p><img src="resources/images/firebaseapps.png" alt=""></p>
+<p>Each of them might use any and all Firebase products.</p>
+</div></section><section class="slide" data-pos="4-2-3">
+<span class="pos">4-2-3</span>
+<div class="slidecontent"><p>And for each of them we can <strong>config the products</strong> in the console:</p>
+<p><img src="resources/images/firebaseconsoleview.png" alt=""></p>
+</div></section><section class="slide num numB" data-pos="4-2-4">
+<span class="pos">4-2-4</span>
+<div class="slidecontent">
+<p>Locally on our machine we&#39;ll use the <strong>Firebase tools</strong>. We install them from npm...</p>
+<pre><code class="lang-bash">npm install -g firebase-tools
+</code></pre>
+<p>...and can then use the <code>firebase</code> command:</p>
+<pre><code>firebase <span class="hljs-comment">--help</span>
+</code></pre></div></section><section class="slide num numC" data-pos="4-2-5">
+<span class="pos">4-2-5</span>
+<div class="slidecontent">
+<p>In the source codes for projects intended to use Firebase projects, there is <strong><code>firebase.json</code></strong>. It holds <strong>config</strong> for various platform parts:</p>
+<pre><code class="lang-json">{
+  &quot;database&quot;: ..., // database config
+  &quot;functions&quot;: ..., // functions config
+  &quot;hosting&quot;: ..., // hosting config
+  // ...and more...
+}
+</code></pre>
+</div></section><section class="slide" data-pos="4-2-6">
+<span class="pos">4-2-6</span>
+<div class="slidecontent"><p>We can <strong>create the file by hand</strong>, or <strong>generate it with the CLI</strong>. Same for updates.</p>
+</div></section><section class="slide num numD" data-pos="4-2-7">
+<span class="pos">4-2-7</span>
+<div class="slidecontent">
+<p>Weirdly there&#39;s also another config file, <strong><code>.firebaserc</code></strong>. Commonly it looks something like this:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"projects"</span>: {
+    <span class="hljs-attr">"default"</span>: <span class="hljs-string">"ssg-exercise"</span> // &lt;-- ssg-exercise is a project id
+  }
+}
+</code></pre>
+</div></section><section class="slide" data-pos="4-2-8">
+<span class="pos">4-2-8</span>
+<div class="slidecontent"><p>The job of <code>.firebaserc</code> is to connect the code to a <strong>specific firebase project instance</strong>.</p>
+</div></section><section class="slide question" data-pos="4-2-9">
+<span class="pos">4-2-9</span>
+<div class="slidecontent">
+<p>So, should we <strong>version control <code>.firebaserc</code></strong> along with <code>firebase.json</code>?</p>
+</div></section><section class="slide answer" data-pos="4-2-10">
+<span class="pos">4-2-10</span>
+<div class="slidecontent">
+<p><strong>Sometimes</strong>, but <strong>probably not</strong>.</p>
+<p>Here&#39;s a good writeup by a Firebase employee: <a href="https://stackoverflow.com/a/43528761">https://stackoverflow.com/a/43528761</a></p>
+</div></section><section class="slide num numE" data-pos="4-2-11">
+<span class="pos">4-2-11</span>
+<div class="slidecontent">
+<p>Next, <strong><code>firebase-debug.log</code></strong>.</p>
+<p>This file will be <strong>generated by some CLI commands</strong>. As the name implies it is a simple log file, and should be gitignored.</p>
+</div></section><section class="slide num numF" data-pos="4-2-12">
+<span class="pos">4-2-12</span>
+<div class="slidecontent">
+<p>Finally, <strong><code>.firebase</code></strong>. This is a folder with nonsense files that might turn up for some CLI commands.</p>
+<p><img src="resources/images/firebasecache.png" alt=""></p>
+<p>It should be ignored and gitignored.</p>
+</div></section>
+</section>
+<!--ENDSECTION2-->
+<!--STARTSECTION3--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 3/6</div>
+      <h3>Hosting</h3>
+      <p>host host</p>
+    </div>
+  </section>
+  <section class="slide" data-pos="4-3-1">
+<span class="pos">4-3-1</span>
+<div class="slidecontent"><p>Time to take a look at some actual Firebase functionality!</p>
+<p>We&#39;ll start by exploring the <strong>hosting</strong> product, which <strong>serves static files</strong>.</p>
+</div></section><section class="slide" data-pos="4-3-2">
+<span class="pos">4-3-2</span>
+<div class="slidecontent"><p>It can be <strong>configured</strong> in <code>firebase.json</code> thusly:</p>
+<pre><code class="lang-json">{
+  &quot;hosting&quot;: {
+    &quot;public&quot;: ..., // path to folder to publish
+    &quot;redirects&quot;: [...], // array of redirect rules
+    &quot;rewrites&quot;: [...], // array of rewrite rules
+    &quot;headers&quot;: [...], // array of header rules
+  }
+}
+</code></pre>
+<p>The <strong><code>public</code></strong> is the most important.</p>
+</div></section><section class="slide" data-pos="4-3-3">
+<span class="pos">4-3-3</span>
+<div class="slidecontent"><p>A <strong>redirect</strong> rule can look like this...</p>
+<pre><code class="lang-json">{
+  &quot;source&quot;: &quot;/foo&quot;, // path to catch
+  &quot;destination&quot;: &quot;/bar&quot;, // path to redirect to
+  &quot;type&quot;: 301 // what code to send
+}
+</code></pre>
+</div></section><section class="slide" data-pos="4-3-4">
+<span class="pos">4-3-4</span>
+<div class="slidecontent"><p>...or like this, redirecting to an HTTP function:</p>
+<pre><code class="lang-json">{
+  &quot;source&quot;: &quot;/foo&quot;, // path to catch
+  &quot;function&quot;: &quot;myFunc&quot;, // name of HTTP function
+  &quot;type&quot;: 301 // what code to send
+}
+</code></pre>
+</div></section><section class="slide" data-pos="4-3-5">
+<span class="pos">4-3-5</span>
+<div class="slidecontent"><p>We can also <strong>rewrite</strong>, which likely more appropriate when delegating to functions:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"source"</span>: <span class="hljs-string">"**"</span>,
+  <span class="hljs-attr">"function"</span>: <span class="hljs-string">"app"</span>
+}
+</code></pre>
+<p>Here we route <strong>all traffic</strong> to a single function.</p>
+</div></section><section class="slide question" data-pos="4-3-6">
+<span class="pos">4-3-6</span>
+<div class="slidecontent">
+<p>Functions?</p>
+</div></section><section class="slide answer" data-pos="4-3-7">
+<span class="pos">4-3-7</span>
+<div class="slidecontent">
+<p>Another Firebase product! More on that very soon!</p>
+</div></section><section class="slide" data-pos="4-3-8">
+<span class="pos">4-3-8</span>
+<div class="slidecontent"><p>To <strong>publish</strong> our static files, run:</p>
+<pre><code class="lang-bash">firebase deploy --only hosting
+</code></pre>
+<p>This will push the contents of the public dir to</p>
+<pre><code class="lang-text">https://&lt;YOUR-APP-NAME&gt;.firebaseapp.com
+</code></pre>
+</div></section><section class="slide" data-pos="4-3-9">
+<span class="pos">4-3-9</span>
+<div class="slidecontent"><p>You can also <strong>serve it locally</strong>:</p>
+<pre><code class="lang-bash">firebase serve --only hosting
+</code></pre>
+</div></section><section class="slide" data-pos="4-3-10">
+<span class="pos">4-3-10</span>
+<div class="slidecontent"><p>Find out more about hosting here:</p>
+<p><a href="https://firebase.google.com/docs/hosting/">https://firebase.google.com/docs/hosting/</a></p>
+</div></section>
+</section>
+<!--ENDSECTION3-->
+<!--STARTSECTION4--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 4/6</div>
+      <h3>Exercise - hosting, take I</h3>
+      <p>Hosting the generated files</p>
+    </div>
+  </section>
+  <section class="slide" data-pos="4-4-1">
+<span class="pos">4-4-1</span>
+<div class="slidecontent"><p>Time to finally start using Firebase!</p>
+<p>And, of course, we do it by adding <strong>hosting</strong> to our blog.</p>
+</div></section><section class="slide" data-pos="4-4-2">
+<span class="pos">4-4-2</span>
+<div class="slidecontent"><p>More specifically, we want to <strong>host the generated files in <code>/output</code></strong>!</p>
+</div></section><section class="slide list" data-pos="4-4-3">
+<span class="pos">4-4-3</span>
+<div class="slidecontent">
+<p>Here&#39;re the steps you need to take:</p>
+<ul>
+<li><span>a</span>create firebase project</li>
+<li><span>b</span>connect google account</li>
+<li><span>c</span>init firebase locally</li>
+<li><span>d</span>connect firebase project</li>
+<li><span>e</span>configure hosting</li>
+<li><span>f</span>test locally</li>
+<li><span>g</span>publish files online</li>
+</ul>
+</div></section><section class="slide num numA" data-pos="4-4-4">
+<span class="pos">4-4-4</span>
+<div class="slidecontent">
+<p>First we need to <strong>create a firebase project</strong> in the online console!</p>
+</div></section><section class="slide" data-pos="4-4-5">
+<span class="pos">4-4-5</span>
+<div class="slidecontent"><p>Navigate to <a href="https://console.firebase.google.com">https://console.firebase.google.com</a>, <strong>log in</strong> with a google account, then <strong>create a project</strong>:</p>
+<p><img src="/resources/images/createproject.png" alt=""></p>
+<p>For now you don&#39;t need to do anything else.</p>
+</div></section><section class="slide num numB" data-pos="4-4-6">
+<span class="pos">4-4-6</span>
+<div class="slidecontent">
+<p>Next you need to <strong>connect the google account</strong> to Firebase on your local machine by...</p>
+<pre><code class="lang-bash">firebase login
+</code></pre>
+<p>...and then enter your credentials.</p>
+</div></section><section class="slide" data-pos="4-4-7">
+<span class="pos">4-4-7</span>
+<div class="slidecontent"><p>We can tell it worked by doing...</p>
+<pre><code class="lang-bash">firebase list
+</code></pre>
+<p>...which will show the available Firebase projects for the current user (which should be the one you just made).</p>
+</div></section><section class="slide num numC" data-pos="4-4-8">
+<span class="pos">4-4-8</span>
+<div class="slidecontent">
+<p>Now we need to <strong>init firebase</strong> locally in our code folder!</p>
+<p>In the root folder of our project, execute...</p>
+<pre><code class="lang-bash">firebase init
+</code></pre>
+<p>...and answer the questions.</p>
+</div></section><section class="slide" data-pos="4-4-9">
+<span class="pos">4-4-9</span>
+<div class="slidecontent"><p>This will generate a <code>firebase.json</code>.</p>
+<p>We could also have written it by hand.</p>
+</div></section><section class="slide num numD" data-pos="4-4-10">
+<span class="pos">4-4-10</span>
+<div class="slidecontent">
+<p>Now we have to <strong>connect the firebase project</strong> to the local files.</p>
+<p>Execute...</p>
+<pre><code class="lang-bash">firebase use
+</code></pre>
+<p>...and select your project in the list.</p>
+</div></section><section class="slide" data-pos="4-4-11">
+<span class="pos">4-4-11</span>
+<div class="slidecontent"><p>This will generate a <code>.firebaserc</code> linking in the project id.</p>
+<p>Again, we could have created that file by hand too.</p>
+</div></section><section class="slide num numE" data-pos="4-4-12">
+<span class="pos">4-4-12</span>
+<div class="slidecontent">
+<p>Time to <strong>configure the hosting</strong>!</p>
+<p>Make sure <code>firebase.json</code> contains hosting configuration setting the public folder as <code>/output</code>.</p>
+</div></section><section class="slide" data-pos="4-4-13">
+<span class="pos">4-4-13</span>
+<div class="slidecontent"><p>As a bonus, add a <strong><code>404.html</code></strong> file to <code>/static</code> and regenerate!</p>
+<p>This is a magical file name that will be used by Firebase when the URL doesn&#39;t match anything.</p>
+</div></section><section class="slide num numF" data-pos="4-4-14">
+<span class="pos">4-4-14</span>
+<div class="slidecontent">
+<p>Now everything is set up, and we can <strong>test it locally</strong>!</p>
+<p>Run...</p>
+<pre><code class="lang-bash">firebase serve --only hosting
+</code></pre>
+<p>...and open <code>localhost:5000</code> in a browser!</p>
+</div></section><section class="slide num numG" data-pos="4-4-15">
+<span class="pos">4-4-15</span>
+<div class="slidecontent">
+<p>Cooler still of course is to <strong>publish it online</strong>!</p>
+<p>Execute...</p>
+<pre><code class="lang-bash">firebase deploy --only hosting
+</code></pre>
+<p>...and visit <code>https://&lt;YOUR-APP-NAME&gt;.firebaseapp.com</code> in a browser!</p>
+</div></section>
+</section>
+<!--ENDSECTION4-->
+<!--STARTSECTION5--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 5/6</div>
+      <h3>Functions</h3>
+      <p>Fun fun functions</p>
+    </div>
+  </section>
+  <section class="slide" data-pos="4-5-1">
+<span class="pos">4-5-1</span>
+<div class="slidecontent"><p>Next product to explore: <strong>functions</strong>!</p>
+</div></section><section class="slide" data-pos="4-5-2">
+<span class="pos">4-5-2</span>
+<div class="slidecontent"><p><strong>Hosting</strong> was a vehicle for files to be consumed by the <strong>client</strong>.</p>
+<p><strong>Functions</strong> is the opposite - it is a host for files to be consumed by the <strong>server</strong>.</p>
+</div></section><section class="slide" data-pos="4-5-3">
+<span class="pos">4-5-3</span>
+<div class="slidecontent"><p>In other words, functions are <strong>server-side code</strong>! It splits broadly into <strong>three categories</strong>:</p>
+<ul>
+<li><strong>HTTP functions</strong>, which are called via requests</li>
+<li><strong>database functions</strong>, triggered by DB events</li>
+<li><strong>misc functions</strong>, triggered by other outside events</li>
+</ul>
+</div></section><section class="slide" data-pos="4-5-4">
+<span class="pos">4-5-4</span>
+<div class="slidecontent"><p>Main available <code>firebase.json</code> configs:</p>
+<pre><code class="lang-json">{
+  &quot;functions&quot;: {
+    &quot;predeploy&quot;: ..., // likely a build script
+    &quot;source&quot;: ..., // defaults to &#39;./functions&#39;
+
+  }
+}
+</code></pre>
+</div></section><section class="slide" data-pos="4-5-5">
+<span class="pos">4-5-5</span>
+<div class="slidecontent"><p>In the <code>index.js</code> file in the functions source folder, all <strong>named exports become registered functions</strong>:</p>
+<pre><code class="lang-javascript">exports.myFunc = ...
+exports.myOtherFunc = ...
+</code></pre>
+</div></section><section class="slide" data-pos="4-5-6">
+<span class="pos">4-5-6</span>
+<div class="slidecontent"><p>The functions are created by using the <code>firebase-functions</code> module from npm...</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> functions = <span class="hljs-built_in">require</span>(<span class="hljs-string">"firebase-functions"</span>);
+</code></pre>
+<p>...which then has <strong>different create methods</strong> for different categories.</p>
+</div></section><section class="slide" data-pos="4-5-7">
+<span class="pos">4-5-7</span>
+<div class="slidecontent"><p>For example, a HTTP function that catches <strong>all requests</strong> is created like this:</p>
+<pre><code class="lang-javascript">exports.app = functions.https.onRequest(funcToRegister);
+</code></pre>
+</div></section><section class="slide" data-pos="4-5-8">
+<span class="pos">4-5-8</span>
+<div class="slidecontent"><p>To <strong>publish</strong> the functions we have defined, run:</p>
+<pre><code class="lang-text">firebase deploy --only functions
+</code></pre>
+</div></section><section class="slide" data-pos="4-5-9">
+<span class="pos">4-5-9</span>
+<div class="slidecontent"><p>To <strong>serve</strong> HTTP functions locally, run:</p>
+<pre><code class="lang-text">firebase serve --only functions
+</code></pre>
+<p>Normally we also want the static assets:</p>
+<pre><code class="lang-text">firebase serve --only functions,hosting
+</code></pre>
+</div></section><section class="slide" data-pos="4-5-10">
+<span class="pos">4-5-10</span>
+<div class="slidecontent"><p>We&#39;ll come back to how to play with non-HTTP functions locally later!</p>
+</div></section><section class="slide" data-pos="4-5-11">
+<span class="pos">4-5-11</span>
+<div class="slidecontent"><p>Finally - the <strong>documentation for functions</strong> can be found here:</p>
+<p><a href="https://firebase.google.com/docs/functions/">https://firebase.google.com/docs/functions/</a></p>
+</div></section>
+</section>
+<!--ENDSECTION5-->
+<!--STARTSECTION6--><section>
+  <section class="slide sectiontitle">
+    <div class="slidecontent">
+      <div class='sectioncount'>Section 6/6</div>
+      <h3>Demo - hosting, take II</h3>
+      <p>Hosting the server</p>
+    </div>
+  </section>
+  <section class="slide" data-pos="4-6-1">
+<span class="pos">4-6-1</span>
+<div class="slidecontent"><p>We&#39;ll now do a <strong>quick teacher demo</strong> of how to use HTTP functions to host our Express server!</p>
+</div></section>
+</section>
+<!--ENDSECTION6--><!--ENDCHAPTERCONTENT-->
+        
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var basehref = window.location.href.replace(/chapter\d.*?$/,'')
+
+      document.addEventListener("keydown",function(e){
+        var code = e.which || e.keyCode;
+        if (code===13){
+          window.location.href = basehref+"index.html?from="+(4-1);
+        } else if (code >= 49 && code <= 6+48) {
+          window.location.hash = "#/" + (code-48+1+0);
+        }
+        if (4 < 8) {
+          if (code===99){ // the letter C for next Chapter
+            window.location.href = basehref+"chapter"+(4+1)+".html"
+          }
+        }
+      });
+    </script>
+    <script src="mc2/scripts/head.js" type="text/javascript"></script>
+    <script src="mc2/scripts/reveal.js" type="text/javascript"></script>
+    <script src="mc2/scripts/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+    showNotes: false,
+    transition: 'slide',
+    dependencies: [
+      { src: 'mc2/scripts/plugin/notes/notes.js', async: true }
+    ]
+  })
+
+    window.onload = function(){
+
+      var links = document.querySelectorAll("a.link");
+      for(var i=0;i<links.length;i++){
+        var link = links[i];
+        link.innerHTML = link.innerHTML.replace(/ /g,'&nbsp;')
+      }
+      var posElem = document.getElementById('pos')
+      function updateReference(){
+        setTimeout(function(){
+          var currentpos = document.querySelector('section.present[data-pos]')
+          if (currentpos){
+            posElem.innerHTML = currentpos.getAttribute('data-pos')
+          } else {
+            posElem.innerHTML = ''
+          }
+          if (document.querySelector('.present.chaptertitle')){
+            document.body.classList.add('atchaptertitle');
+          } else {
+            document.body.classList.remove('atchaptertitle');
+          }
+        },10)
+      }
+
+      window.addEventListener("hashchange",updateReference);
+
+      updateReference();
+    };
+
+    </script>
+    <!--STARTCOURSESPECIFICSCRIPTS--><!--ENDCOURSESPECIFICSCRIPTS-->
+  </body>
+</html>
